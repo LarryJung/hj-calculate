@@ -9,11 +9,18 @@
     <template v-else-if="isResult">
       <div class="base-font">
         당신의 이번 학기 평점은
-        <div class="point-box">{{point}} / 4.5</div>입니다.
+        <div class="point-box">{{point}} / 4.5</div>입니다. 이번 학기도 화이팅입니다!
         <br />
-        <div>이번 학기도 화이팅입니다!</div>
       </div>
       <a class="button3 base-font" style="margin-top: 20px" @click="reload()">다시하기</a>
+      <div
+        @click="sendKakao()"
+        class="share-btn"
+        style="margin-top: 20px; display: flex; align-items:flex-end; border:1px"
+      >
+        <div>Share Result with</div>
+        <img style="width: 80px" alt="카카오톡 공유하기" src="./assets/Kakao_CI.png" />
+      </div>
     </template>
     <template v-else>
       <p class="base-font">아래 문항에 빠짐없이 진심으로 답해주세요.</p>
@@ -48,9 +55,6 @@
       <div style="margin-top: 30px">
         <a class="button3 base-font" @click="goNextGroup()">다음</a>
       </div>
-      <!-- <div>선택함: {{picked}}</div>
-      <div>선택한 총 weight: {{pickeds}}</div>
-      <div>pickedLis: {{multiPickedList}}</div>-->
     </template>
   </div>
 </template>
@@ -65,6 +69,7 @@ export default {
   },
   data() {
     return {
+      currentUrl: window.location.href,
       loading: false,
       isResult: false,
       currentGroup: 0,
@@ -268,6 +273,37 @@ export default {
     },
     reload() {
       window.location.reload();
+    },
+    sendKakao() {
+      Kakao.Link.sendDefault({
+        objectType: "feed",
+        content: {
+          title: "나의 이번 학기 예상 학점은",
+          imageUrl: "",
+          link: {
+            webUrl: this.currentUrl,
+            mobileWebUrl: this.currentUrl
+          },
+          description: `${this.point} 랍니다.`
+        },
+        buttons: [
+          {
+            title: "나도 해보기",
+            link: {
+              webUrl: this.currentUrl,
+              mobileWebUrl: this.currentUrl
+            }
+          }
+        ],
+        success: function(response) {
+          console.log("success");
+          console.log(response);
+        },
+        fail: function(error) {
+          console.log("error");
+          console.log(error);
+        }
+      });
     }
   }
 };
@@ -340,6 +376,24 @@ export default {
   padding: 5px;
 }
 
+.share-btn {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 0.2em 0.3em 0.3em 0.2em;
+  border-radius: 10px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: 300;
+  color: #ffffff;
+  background-color: #ff9b58;
+  text-align: center;
+  transition: all 0.5s;
+}
+
+.share-btn:hover {
+  background-color: #fda86e;
+}
+
 a.button3 {
   display: inline-block;
   padding: 0.3em 1.2em;
@@ -362,9 +416,6 @@ a.button3:hover {
   margin:0.2em auto;
  }
 } */
-
-#content {
-}
 
 @keyframes fadein {
   from {

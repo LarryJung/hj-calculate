@@ -215,7 +215,11 @@ export default {
         const avg = this.groups[this.currentGroup].calcFun(
           this.multiPickedList.map(l => l.weight)
         );
-        this.pickeds.push(avg);
+        if (this.multiPickedList.length == 0) {
+          this.pickeds.push(3.5);
+        } else {
+          this.pickeds.push(avg);
+        }
         this.multiPickedList = [];
       } else {
         if (!this.picked.weight) {

@@ -1,39 +1,52 @@
 <template>
   <div id="app">
     <img id="grandmother" alt="grandmother" src="./assets/grandmother.png" />
-    <h1>"학점을 알려줌마"</h1>
+    <h1>학점을 알려줌마</h1>
     <template v-if="loading">
-      <div>학점 계산 중 입니다.</div>
-      <div>{{ranNum}}</div>
+      <div class="base-font">학점 계산 중 입니다.</div>
+      <div style="font-size: 40px">{{ranNum}}</div>
     </template>
     <template v-else-if="isResult">
-      <div>당신의 이번 학기 평점은 "{{point}}" 입니다.</div>
-      <button @click="reload()">다시하기</button>
+      <div class="base-font">
+        당신의 이번 학기 평점은
+        <div class="point-box">{{point}} / 4.5</div>입니다.
+        <br/>
+        <div>이번 학기도 화이팅입니다!</div>
+      </div>
+      <a class="button3 base-font" style="margin-top: 20px" @click="reload()">다시하기</a>
     </template>
     <template v-else>
-      <p>아래 문항에 빠짐없이 진심으로 답해주세요.</p>
-      <h3>{{this.groups[this.currentGroup].name}} ({{this.currentGroup + 1}}/4)</h3>
-      <div id="question-box">
-        <template v-if="currentGroup == 2">
-          <div v-for="item in this.groups[this.currentGroup].questions">
-            <input
-              type="checkbox"
-              v-bind:value="item"
-              v-bind:name="item.name"
-              v-model="multiPickedList"
-            />
-            <label>{{item.name}}</label>
-          </div>
-        </template>
-        <template v-else>
-          <div v-for="item in this.groups[this.currentGroup].questions">
-            <input type="radio" v-bind:value="item" v-bind:name="currentGroup" v-model="picked" />
-            <label>{{item.name}}</label>
-          </div>
-        </template>
+      <p class="base-font">아래 문항에 빠짐없이 진심으로 답해주세요.</p>
+      <div class="main-content">
+        <h3>{{this.groups[this.currentGroup].name}} ({{this.currentGroup + 1}}/4)</h3>
+        <div id="question-box">
+          <template v-if="currentGroup == 2">
+            <div
+              style="margin-bottom: 5px;"
+              v-for="item in this.groups[this.currentGroup].questions"
+            >
+              <input
+                type="checkbox"
+                v-bind:value="item"
+                v-bind:name="item.name"
+                v-model="multiPickedList"
+              />
+              <label>{{item.name}}</label>
+            </div>
+          </template>
+          <template v-else>
+            <div
+              style="margin-bottom: 5px;"
+              v-for="item in this.groups[this.currentGroup].questions"
+            >
+              <input type="radio" v-bind:value="item" v-bind:name="currentGroup" v-model="picked" />
+              <label>{{item.name}}</label>
+            </div>
+          </template>
+        </div>
       </div>
-      <div>
-        <button @click="goNextGroup()">다음</button>
+      <div style="margin-top: 30px">
+        <a class="button3 base-font" @click="goNextGroup()">다음</a>
       </div>
       <!-- <div>선택함: {{picked}}</div>
       <div>선택한 총 weight: {{pickeds}}</div>
@@ -261,8 +274,9 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap");
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Gaegu", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -283,5 +297,115 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   /* justify-content: flex-start; */
+}
+
+.base-font {
+  font-size: 20px;
+}
+.main-content {
+  border-radius: 10px;
+  box-shadow: 5px 8px;
+  border: 1px solid;
+  padding: 5px 12px 15px 12px;
+
+  animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  /* Firefox */
+  -webkit-animation: fadein 2s;
+  /* Safari and Chrome */
+  -o-animation: fadein 2s;
+  /* Opera */
+}
+
+.point-box {
+  font-size: 25;
+  border-radius: 4px;
+  border: 1px solid;
+  padding: 5px;
+
+  animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  /* Firefox */
+  -webkit-animation: fadein 2s;
+  /* Safari and Chrome */
+  -o-animation: fadein 2s;
+  /* Opera */
+}
+
+.next-btn {
+  border-radius: 10px;
+  box-shadow: 2px 4px;
+  border: 1px solid;
+  padding: 5px;
+}
+
+a.button3 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: 300;
+  color: #ffffff;
+  background-color: #427694;
+  text-align: center;
+  transition: all 0.2s;
+}
+a.button3:hover {
+  background-color: #4095c6;
+}
+/* @media all and (max-width:30em){
+ a.button3{
+  display:block;
+  margin:0.2em auto;
+ }
+} */
+
+#content {
+  
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 </style>

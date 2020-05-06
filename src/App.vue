@@ -10,7 +10,7 @@
       <div class="base-font">
         당신의 이번 학기 평점은
         <div class="point-box">{{point}} / 4.5</div>입니다.
-        <br/>
+        <br />
         <div>이번 학기도 화이팅입니다!</div>
       </div>
       <a class="button3 base-font" style="margin-top: 20px" @click="reload()">다시하기</a>
@@ -225,12 +225,12 @@ export default {
   methods: {
     goNextGroup() {
       if (this.currentGroup === 2) {
-        const avg = this.groups[this.currentGroup].calcFun(
-          this.multiPickedList.map(l => l.weight)
-        );
         if (this.multiPickedList.length == 0) {
           this.pickeds.push(3.5);
         } else {
+          const avg = this.groups[this.currentGroup].calcFun(
+            this.multiPickedList.map(l => l.weight)
+          );
           this.pickeds.push(avg);
         }
         this.multiPickedList = [];
@@ -363,7 +363,6 @@ a.button3:hover {
 } */
 
 #content {
-  
 }
 
 @keyframes fadein {
